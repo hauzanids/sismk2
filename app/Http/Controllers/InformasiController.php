@@ -10,7 +10,7 @@ class InformasiController extends Controller
     public function index()
     {
       $daftar_informasi = \App\Informasi::all();
-      return view('',['daftar_informasi'=>$daftar_informasi]);
+      return view('beranda.index',['daftar_informasi'=>$daftar_informasi]);
     }
 
     public function create()
@@ -40,14 +40,15 @@ class InformasiController extends Controller
 
       Informasi::create($form_data);
 
-      return redirect('')->with('success','Data berhasil ditambahkan');
+      return redirect('/beranda')->with('success','Data berhasil ditambahkan');
     }
 
     public function edit($id)
     {
-      $lomba = Informasi::findOrFail($id);  
-      return view('lomba.edit', compact('lomba'));
+      $informasi = Informasi::findOrFail($id);  
+      return view('beranda.edit', compact('informasi'));
     }
+
     public function update(Request $request,$id)
     {
       // $lomba = \App\Lomba::find($id);  
@@ -59,42 +60,32 @@ class InformasiController extends Controller
         $request->validate([
           'judul' => 'required',
           'gambar' => 'required|image|max:51200',
-          'penyelenggara' => 'required',
-          'tempat' => 'required',
           'deskripsi' => 'required',
-          'waktu_pelaksanaan' => 'required',
         ]);
         $image_name = rand() . '.' . $image->getClientOriginalExtension();
         $image->move(public_path('img'),$image_name);
       }else{
         $request->validate([
           'judul' => 'required',
-          'penyelenggara' => 'required',
-          'tempat' => 'required',
           'deskripsi' => 'required',
-          'waktu_pelaksanaan' => 'required',
         ]);
       }
 
       $form_data = array(
         'judul' => $request->judul,
         'gambar' => $image_name,
-        'penyelenggara' => $request->penyelenggara,
-        'tempat' => $request->tempat,
         'deskripsi' => $request->deskripsi,
-        'waktu_pelaksanaan' => $request->waktu_pelaksanaan,
       );
 
       Informasi::whereId($id)->update($form_data);
 
-      return redirect('/lomba')->with('success','Data berhasil diubah');
+      return redirect('/beranda')->with('success','Data berhasil diubah');
 
     }
     public function delete($id)
     {
-      $lomba = \App\Informasi::find($id);
-      $lomba->delete($lomba);
-    return redirect('/lomba')->with('success','Data berhasil dihapus');
-
+      $informasi = \App\Informasi::find($id);
+      $informasi->delete($informasi);
+    return redirect('/beranda')->with('success','Data berhasil dihapus');
     }
 }

@@ -15,6 +15,8 @@ class CreateElenTable extends Migration
     {
         Schema::create('elen', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('kelas');
+            $table->string('matpel');
             $table->string('judul');
             $table->longText('deskripsi');
             $table->string('assignment');
