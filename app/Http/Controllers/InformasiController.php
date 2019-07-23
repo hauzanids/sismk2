@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 class InformasiController extends Controller
 {
     //
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
       $daftar_informasi = \App\Informasi::all();
@@ -25,6 +30,7 @@ class InformasiController extends Controller
         'judul' => 'required',
         'gambar' => 'required|image|max:51200',
         'deskripsi' => 'required',
+        'tanggal' => 'required',
       ]);
 
       $image = $request->file('gambar');
@@ -35,7 +41,7 @@ class InformasiController extends Controller
         'judul' => $request->judul,
         'gambar' => $new_name,
         'deskripsi' => $request->deskripsi,
-        'waktu_pelaksanaan' => $request->waktu_pelaksanaan,
+        'tanggal' => $request->tanggal,
       );
 
       Informasi::create($form_data);
@@ -61,6 +67,7 @@ class InformasiController extends Controller
           'judul' => 'required',
           'gambar' => 'required|image|max:51200',
           'deskripsi' => 'required',
+          'tanggal' => 'required',
         ]);
         $image_name = rand() . '.' . $image->getClientOriginalExtension();
         $image->move(public_path('img'),$image_name);
@@ -68,6 +75,7 @@ class InformasiController extends Controller
         $request->validate([
           'judul' => 'required',
           'deskripsi' => 'required',
+          'tanggal' => 'required',
         ]);
       }
 
@@ -75,6 +83,7 @@ class InformasiController extends Controller
         'judul' => $request->judul,
         'gambar' => $image_name,
         'deskripsi' => $request->deskripsi,
+        'tanggal' => $request->tanggal,
       );
 
       Informasi::whereId($id)->update($form_data);
@@ -86,6 +95,6 @@ class InformasiController extends Controller
     {
       $informasi = \App\Informasi::find($id);
       $informasi->delete($informasi);
-    return redirect('/beranda')->with('success','Data berhasil dihapus');
+      return redirect('/beranda')->with('success','Data berhasil dihapus');
     }
 }

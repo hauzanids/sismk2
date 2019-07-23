@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateElenTable extends Migration
+class CreateJadwal2Table extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,15 @@ class CreateElenTable extends Migration
      */
     public function up()
     {
-        Schema::create('elen', function (Blueprint $table) {
+        Schema::create('jadwal2', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('kelas');
-            $table->string('matpel');
-            $table->string('judul');
-            $table->longText('deskripsi');
-            $table->string('assignment');
-            $table->string('tugas');
+            $table->time('jammulai');
+            $table->time('jamselesai');
+            $table->string('senin');
+            $table->string('selasa');
+            $table->string('rabu');
+            $table->string('kamis');
+            $table->string('jumat');
             $table->timestamps();
         });
     }
@@ -32,6 +33,6 @@ class CreateElenTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('elen');
+        Schema::dropIfExists('jadwal2');
     }
 }
